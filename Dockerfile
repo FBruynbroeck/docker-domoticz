@@ -1,6 +1,8 @@
-FROM resin/rpi-raspbian:jessie
+FROM jsurf/rpi-raspbian:jessie
 
 MAINTAINER FBruynbroeck
+
+RUN [ "cross-build-start" ]
 
 RUN \
   apt-get update && \
@@ -17,6 +19,8 @@ ADD domoticz_linux_armv7l.tgz /root/domoticz
 ADD plugin_broadlink.tar.gz /root/domoticz/plugins/Broadlink
 RUN cp -r /usr/local/lib/python3.4/dist-packages/Crypto/ /usr/lib/python3.4/ && \
   cp -r /usr/local/lib/python3.4/dist-packages/broadlink /usr/lib/python3.4/
+
+RUN [ "cross-build-end" ]
 
 EXPOSE 8080
 
