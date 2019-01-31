@@ -7,7 +7,7 @@ RUN [ "cross-build-start" ]
 RUN \
   apt-get update && \
   apt-get install -y cmake apt-utils build-essential && \
-  apt-get install -y libboost-dev libboost-thread-dev libboost-system-dev libsqlite3-dev subversion curl libcurl4-openssl-dev libusb-dev zlib1g-dev && \
+  apt-get install -y libboost-dev libboost-thread-dev libboost-system-dev libsqlite3-dev subversion curl libcurl4-openssl-dev libcurl4-gnutls-dev libusb-dev zlib1g-dev && \
   apt-get install -y iputils-ping && \
   apt-get install -y python3-dev python3-pip && \
   apt-get clean && \
