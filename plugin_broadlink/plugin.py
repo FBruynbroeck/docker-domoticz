@@ -28,7 +28,7 @@
         <param field="Address" label="IP Address" width="200px" required="true" default="127.0.0.1"/>
         <param field="Mode1" label="Mac" width="100px" required="true" default="000000000000"/>
         <param field="Mode3" label="Device Type" width="250px" required="true"  default="DIS">
-            <options>                
+            <options>
                 <option label= "Discovery" value="DIS"/>
                 <option label= "Remote Control RM2/RM mini3" value="RM2"/>
                 <option label= "Remote Control RM2/RM mini3 with Temperature device" value="RM2T"/>
@@ -41,7 +41,7 @@
         </param>
         <param field="Mode2" label="Folder to store ini files (RM2/RM mini3)" width="300px" required="true" default="C:/BroadlinkRM2"/>
         <param field="Mode4" label="Generate import Device (RM2/RM mini3)" width="75px">
-            <options>                
+            <options>
                 <option label= "False" value="no"/>
                 <option label= "True" value="yes" default="True"/>
             </options>
@@ -75,11 +75,9 @@ import sys
 import os
 path=''
 path=site.getsitepackages()
-for i in path:    
+for i in path:
     sys.path.append(i)
-#
-import broadlink      
-#
+import broadlink
 isConnected = False
 numberDev = 2
 bypass = False
@@ -106,19 +104,19 @@ def onStart():
     if Parameters["Mode6"] == "Debug":
         Domoticz.Debugging(1)
 
-    if  (Parameters["Mode3"] == 'DIS'):        
+    if  (Parameters["Mode3"] == 'DIS'):
         if ( 1 not in Devices):
             Domoticz.Device(Name="Discovery",  Unit=1, Type=17, Image=2, Switchtype=17, Used=1).Create()
         if ( 2 not in Devices):
             Domoticz.Device(Name="Discovery Info",  Unit=2, TypeName="Text", Used=1).Create()
-    
+
     elif (Parameters["Mode3"] == 'RM2T' or Parameters["Mode3"] == 'RM2'):
         if ( 1 not in Devices ):
-            Options =   {   "LevelActions"  :"||||" , 
+            Options =   {   "LevelActions"  :"||||" ,
                             "LevelNames"    :"Off|Learn|Test|Save|Reset" ,
                             "LevelOffHidden":"true",
                             "SelectorStyle" :"0"
-                         }    
+                         }
             Domoticz.Device(Name="Command",  Unit=1, TypeName="Selector Switch", Switchtype=18, Image=12, Options=Options, Used=1).Create()
 
         if ( 2 not in Devices and Parameters["Mode3"] == 'RM2T'):
@@ -128,62 +126,62 @@ def onStart():
             Domoticz.Device(Name="Remote",  Unit=254, Type=17, Image=2, Switchtype=17, Used=1).Create()
 
         if ( 255 not in Devices and Parameters["Mode4"] == 'yes' ):
-            Options =   {   "LevelActions"  :"||||" , 
+            Options =   {   "LevelActions"  :"||||" ,
                             "LevelNames"    :"Off|WebStart|Generate|Import|Clear" ,
                             "LevelOffHidden":"true",
                             "SelectorStyle" :"0"
-                         }    
+                         }
             Domoticz.Device(Name="Import",  Unit=255, TypeName="Selector Switch", Switchtype=18, Image=12, Options=Options, Used=1).Create()
 
     elif  (Parameters["Mode3"] == 'SP1' or Parameters["Mode3"] == 'SP2' or Parameters["Mode3"] == 'SP3S'):
         if ( 1 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]),  Unit=1,TypeName="Switch", Image=1, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]),  Unit=1,TypeName="Switch", Image=1, Used=1).Create()
         if Parameters["Mode3"] == 'SP3S':
             if ( 2 not in Devices ):
-                Domoticz.Device(Name=str(Parameters["Mode3"]),  Unit=2,TypeName="Usage", Used=1).Create() 
+                Domoticz.Device(Name=str(Parameters["Mode3"]),  Unit=2,TypeName="Usage", Used=1).Create()
             if ( 3 not in Devices ):
                 Domoticz.Device(Name=str(Parameters["Mode3"]),  Unit=3,TypeName="kWh", Used=1).Create()
             if ( 4 not in Devices ):
                 Domoticz.Device(Name=str(Parameters["Mode3"]) + ' Light',  Unit=4,TypeName="Switch", Used=1).Create()
         else:
             if ( 2 not in Devices ):
-                Domoticz.Device(Name=str(Parameters["Mode3"]) + ' Light',  Unit=2,TypeName="Switch", Used=1).Create() 
+                Domoticz.Device(Name=str(Parameters["Mode3"]) + ' Light',  Unit=2,TypeName="Switch", Used=1).Create()
 
     elif  (Parameters["Mode3"] == 'A1'):
         if ( 1 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Status',  Unit=1,Type=17, Image=17, Switchtype=17, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Status',  Unit=1,Type=17, Image=17, Switchtype=17, Used=1).Create()
         if ( 2 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Temperature',  Unit=2,TypeName="Temperature", Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Temperature',  Unit=2,TypeName="Temperature", Used=1).Create()
         if ( 3 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Humidity',  Unit=3,TypeName="Humidity", Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Humidity',  Unit=3,TypeName="Humidity", Used=1).Create()
         if ( 4 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Air Quality',  Unit=4,TypeName="Air Quality", Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Air Quality',  Unit=4,TypeName="Air Quality", Used=1).Create()
         if ( 5 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Noise',  Unit=5,TypeName="Sound Level", Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Noise',  Unit=5,TypeName="Sound Level", Used=1).Create()
         if ( 6 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Light',  Unit=6,TypeName="Illumination", Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Light',  Unit=6,TypeName="Illumination", Used=1).Create()
 
     elif  (Parameters["Mode3"] == 'MP1'):
         if ( 1 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Status',  Unit=1,TypeName="Switch",Image=9, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - Status',  Unit=1,TypeName="Switch",Image=9, Used=1).Create()
         if ( 2 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug1',  Unit=2,TypeName="Switch",Image=1, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug1',  Unit=2,TypeName="Switch",Image=1, Used=1).Create()
         if ( 3 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug2',  Unit=3,TypeName="Switch",Image=1, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug2',  Unit=3,TypeName="Switch",Image=1, Used=1).Create()
         if ( 4 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug3',  Unit=4,TypeName="Switch",Image=1, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug3',  Unit=4,TypeName="Switch",Image=1, Used=1).Create()
         if ( 5 not in Devices ):
-            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug4',  Unit=5,TypeName="Switch",Image=1, Used=1).Create() 
+            Domoticz.Device(Name=str(Parameters["Mode3"]) + ' - plug4',  Unit=5,TypeName="Switch",Image=1, Used=1).Create()
 
 
     DumpConfigToLog()
     Domoticz.Heartbeat(30)
 
-    numberDev = len(Devices) - 1    
+    numberDev = len(Devices) - 1
     if (255 in Devices):
         UpdateDevice(255, 0, 'Off')
         numberDev = numberDev - 1
-    
+
     Domoticz.Log("Connecting to: "+Parameters["Address"]+":"+Parameters["Mode1"])
 
     if Parameters["Mode3"] == 'RM2' or Parameters["Mode3"] == 'RM2T' or Parameters["Mode3"] == 'A1':
@@ -215,7 +213,7 @@ def onStart():
         genRemote()
 
     Domoticz.Log("Device Number begin to : "+ str(numberDev))
-    
+
     return True
 
 # executed each time we click on device thru domoticz GUI
@@ -223,20 +221,20 @@ def onCommand(Unit, Command, Level, Hue):
     global sendCommand, isRunning, learnedCommand, isConnected
 
     Domoticz.Log("onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level) + " , Connected : " + str(isConnected))
-    
+
     Command = Command.strip()
 
     if (Command == 'Set Level'):
         if (Parameters["Mode3"] == 'RM2T' or Parameters["Mode3"] == 'RM2'):
             if (Unit == 1):  # Command selector
-                if (Level == 10): 
+                if (Level == 10):
                         learn()
-                if (Level == 20): 
+                if (Level == 20):
                     sendCommand = learnedCommand
                     if learnedCommand == "None":
                         Domoticz.Log('Nothing to send')
                     else:
-                        send()                
+                        send()
                 if (Level == 30):
                     if learnedCommand == "None":
                         Domoticz.Log('Nothing to save')
@@ -244,34 +242,34 @@ def onCommand(Unit, Command, Level, Hue):
                         custom = ""
                         if save():
                             UpdateDevice(1,1,'10')
-                            learnedCommand = "None" 
+                            learnedCommand = "None"
                 if (Level == 40):
                     if learnedCommand == "None":
                         Domoticz.Log('Nothing to reset')
                     else:
                         reset()
             elif (Unit == 255):
-                if (Level == 10):                
+                if (Level == 10):
                     if startWeb():
                         isRunning = True
                         UpdateDevice(255,1,'10')
                     else:
                         UpdateDevice(255,0,'Off')
                         Domoticz.Error ('Not able to start Web server')
-                if (Level == 20):                
+                if (Level == 20):
                     if createIniImport():
                         UpdateDevice(255,1,'20')
                     else:
                         UpdateDevice(255,0,'Off')
                         Domoticz.Error ('Error with json files to import')
-                if (Level == 30):  
-                    clear = False              
+                if (Level == 30):
+                    clear = False
                     if manageIniImport(clear):
                         UpdateDevice(255,1,'30')
                     else:
                         UpdateDevice(255,0,'Off')
-                if (Level == 40):  
-                    clear = True              
+                if (Level == 40):
+                    clear = True
                     if manageIniImport(clear):
                         UpdateDevice(255,1,'40')
                     else:
@@ -282,15 +280,15 @@ def onCommand(Unit, Command, Level, Hue):
     elif (Command == 'On'):
 
         if (Unit == 1 and Parameters['Mode3'] == 'DIS'):  # Discovery
-            if Discover():            
+            if Discover():
                 UpdateDevice(Unit, 1, 'Found : ' + str(len(brodevices )) + ' device(s)')
             else:
-                Domoticz.Error('Not able to find Broadlink device')        
+                Domoticz.Error('Not able to find Broadlink device')
         elif (Unit==254 and RemoteCommand != "" ):
             UpdateDevice(Unit, 1, 'On')
         elif ( Unit==1 and (Parameters['Mode3'] == 'SP1' or Parameters['Mode3'] == 'SP2' or Parameters['Mode3'] == 'SP3S')):
             try:
-                device.set_power(True)                
+                device.set_power(True)
                 UpdateDevice(Unit,1,'On')
             except:
                 Domoticz.Error(' error to put ON SP1/SP2/SP3 ')
@@ -302,13 +300,13 @@ def onCommand(Unit, Command, Level, Hue):
             except:
                 Domoticz.Error(' error to put on light on SPx' )
                 isConnected = False
-        elif (Parameters['Mode3'] == 'MP1'):            
+        elif (Parameters['Mode3'] == 'MP1'):
             if ( Unit > 1 and Unit < 6):
                 try:
-                    device.set_power(Unit - 1, True)                
+                    device.set_power(Unit - 1, True)
                     UpdateDevice(Unit,1,'On')
                 except:
-                    Domoticz.Error(' Error to put ON MP1 for plug : ' + str(Unit -1))                    
+                    Domoticz.Error(' Error to put ON MP1 for plug : ' + str(Unit -1))
         else:
             if (Parameters["Mode3"] == 'RM2T' or Parameters["Mode3"] == 'RM2'):
                 genCommand(Unit)
@@ -318,7 +316,7 @@ def onCommand(Unit, Command, Level, Hue):
     elif (Command == 'Off'):
 
         if (Unit == 1 and Parameters['Mode3'] == 'DIS'):  # Discovery
-                UpdateDevice(Unit, 0, 'Off')              
+                UpdateDevice(Unit, 0, 'Off')
         elif ( Unit==1 and (Parameters['Mode3'] == 'SP1' or Parameters['Mode3'] == 'SP2' or Parameters['Mode3'] == 'SP3S')):
             try:
                 device.set_power(False)
@@ -336,12 +334,12 @@ def onCommand(Unit, Command, Level, Hue):
         elif (Parameters['Mode3'] == 'MP1'):
             if ( Unit > 1 and Unit < 6):
                 try:
-                    device.set_power(Unit - 1, False)                
+                    device.set_power(Unit - 1, False)
                     UpdateDevice(Unit,0,'Off')
                 except:
                     Domoticz.Error(' Error to put Off MP1 for plug : ' + str(Unit -1))
-        else:            
-            try:    
+        else:
+            try:
                 UpdateDevice(Unit, 0, 'Off')
             except:
                 Domoticz.Error('Unit error update')
@@ -354,19 +352,19 @@ def onCommand(Unit, Command, Level, Hue):
 
     else:
         Domoticz.Error('Unknown command')
-            
+
     return True
 
 # execution depend of Domoticz.Heartbeat(x) x in seconds
 def onHeartbeat():
     global bypass, isConnected, isRunning, state
-    
+
     now = datetime.datetime.now()
 
     if (255 in Devices and isRunning == True):
             isAlive()
-    
-    if bypass is True:    
+
+    if bypass is True:
         bypass = False
         return
 # for RM2T type we check temp every 2 minutes
@@ -500,21 +498,21 @@ def DumpConfigToLog():
 
 # Update Device into DB
 def UpdateDevice(Unit, nValue, sValue):
-    # Make sure that the Domoticz device still exists (they can be deleted) before updating it 
+    # Make sure that the Domoticz device still exists (they can be deleted) before updating it
     if (Unit in Devices):
-        if Unit == 1 or (Unit == 4 and Parameters["Mode3"] == 'SP3S') or ((Unit == 2) and (Parameters["Mode3"] == 'SP1' or Parameters["Mode3"] == 'SP2')):            
+        if Unit == 1 or (Unit == 4 and Parameters["Mode3"] == 'SP3S') or ((Unit == 2) and (Parameters["Mode3"] == 'SP1' or Parameters["Mode3"] == 'SP2')):
             if (Devices[Unit].nValue != nValue) or (Devices[Unit].sValue != sValue):
                 Devices[Unit].Update(nValue=nValue, sValue=str(sValue))
                 Domoticz.Log("Update "+str(nValue)+":'"+str(sValue)+"' ("+Devices[Unit].Name+")")
         else:
-            Devices[Unit].Update(nValue=nValue, sValue=str(sValue))            
+            Devices[Unit].Update(nValue=nValue, sValue=str(sValue))
             Domoticz.Log("Update "+str(nValue)+":'"+str(sValue)+"' ("+Devices[Unit].Name+")")
     return
 
 # generate command to execute and update name in ini file if necessary
 def genCommand(Unit):
     global loadedCommand, sendCommand, nbUpdate
-    
+
     Domoticz.Log('Generate on Command for learned code stored on unit/ini :' + str(Unit))
 
     path=str(Parameters["Mode2"]) + "/" + str(Parameters["Key"]) + "-" + str(Parameters["HardwareID"]) + "-" + str(Unit) + ".ini"
@@ -522,12 +520,12 @@ def genCommand(Unit):
     if not os.path.exists(path):
         Domoticz.Error(' ini file not found: ' + str(path))
         return
- 
+
     config = configparser.ConfigParser()
     config.read(path,encoding='utf8')
     loadedCommand = config.get("LearnedCode", str(Unit))
     if Parameters["Mode6"] == "Debug":
-        Domoticz.Log(" Code loaded : " + loadedCommand)        
+        Domoticz.Log(" Code loaded : " + loadedCommand)
     sendCommand = loadedCommand
     if isConnected:
         send()
@@ -545,10 +543,10 @@ def genCommand(Unit):
             if not (Devices[Unit].Name == config.get("DEFAULT","customname")):
 
                 config.set('DEFAULT','customname',Devices[Unit].Name)
-        
+
                 try:
                     with open(path, 'w') as configfile:
-                        config.write(configfile)                
+                        config.write(configfile)
                 except IOError:
                     Domoticz.Error('Error updating config file')
                     raise
@@ -562,11 +560,11 @@ def genCommand(Unit):
 def save():
     global path, learnedCommand, Unit, numberDev, custom
 
-    numberDev +=1    
+    numberDev +=1
     path=str(Parameters["Mode2"]) + "/" + str(Parameters["Key"]) + "-" + str(Parameters["HardwareID"]) + "-" + str(numberDev) + ".ini"
 
     if os.path.exists(path):
-        Domoticz.Error('File exist : ' + path)        
+        Domoticz.Error('File exist : ' + path)
         return False
     else:
         try:
@@ -582,17 +580,17 @@ def save():
 
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log(' <b> Command line : ' + '"' + Parameters['HomeFolder'] + 'plugin_send.py' +  '" ' + path + ' </b>')
-    
+
     return True
 
 def reset():
     global learnedCommand
-    
-    UpdateDevice(1, 0, 'Off')   
-    learnedCommand = "None" 
+
+    UpdateDevice(1, 0, 'Off')
+    learnedCommand = "None"
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log("Reset learned command")
-    
+
     return True
 
 # discover Broadlink device on the Network
@@ -605,7 +603,7 @@ def Discover():
 
     if str(len(brodevices )) == 0:
         return False
-    
+
     txtdevice = ''
 
     for index, item in enumerate(brodevices):
@@ -630,7 +628,7 @@ def Discover():
 # Put Broadlink on Learn , packet received converted to Hex
 def learn():
     global learnedCommand
-    
+
     learnedCommand= "None"
 
     if not isConnected:
@@ -638,19 +636,19 @@ def learn():
 
     Domoticz.Log("All plugin system is on pause for 5s...")
     Domoticz.Log("When Broadlink led is lit press the button on your remote within 5 seconds")
-    
+
     try:
         device.enter_learning()
     except:
         Domoticz.Error ('Not able to learn command')
         return False
 
-    time.sleep(5)    
+    time.sleep(5)
 
     ir_packet = device.check_data()
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log(str(ir_packet))
-    
+
     if str(ir_packet) == "None":
         Domoticz.Log('Command not received')
         learnedCommand= "None"
@@ -659,7 +657,7 @@ def learn():
     learnedCommand=(codecs.encode(ir_packet, 'hex_codec')).decode('utf-8')
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log(learnedCommand)
-        
+
     Domoticz.Log( "Code stored in memory" )
     UpdateDevice(1, 1, '20')
 
@@ -672,7 +670,7 @@ def send():
     if not sendCommand:
         Domoticz.Error('Nothing to send')
         return False
-    
+
     sendCommand = bytes.fromhex(sendCommand)
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log(str(sendCommand))
@@ -687,7 +685,7 @@ def send():
     return True
 
 #Create a config file
-def create_config(path,Unit,learnedCommand,custom):    
+def create_config(path,Unit,learnedCommand,custom):
 
     config = configparser.ConfigParser()
     config['DEFAULT'] = {   'PluginKey'     : Parameters["Key"],
@@ -701,7 +699,7 @@ def create_config(path,Unit,learnedCommand,custom):
     config['Device'] = {    'Host'  : Parameters["Address"],
                             'Mac'   : Parameters["Mode1"]
                         }
-    config['LearnedCode'] = {}    
+    config['LearnedCode'] = {}
     UniteCode = config['LearnedCode']
     UniteCode[str(Unit)] = learnedCommand
     try:
@@ -710,9 +708,9 @@ def create_config(path,Unit,learnedCommand,custom):
     except IOError:
         Domoticz.Error('Error create config file')
         raise
-    
+
     if Parameters["Mode6"] == "Debug":
-        Domoticz.Log( "ini file creation...." + path)    
+        Domoticz.Log( "ini file creation...." + path)
 
     return
 
@@ -736,7 +734,7 @@ def broadlinkConnect():
         device.auth()
         #device.host
         isConnected = True
-        Domoticz.Log( "Connected to Broadlink device: " + str(Parameters["Address"]))        
+        Domoticz.Log( "Connected to Broadlink device: " + str(Parameters["Address"]))
     except:
         Domoticz.Error( "Error Connecting to Broadlink device...." + str(Parameters["Address"]))
         isConnected = False
@@ -772,10 +770,10 @@ def startWeb():
     #  win specific
         cmdFile = '"' + Parameters["HomeFolder"] + 'plugin_http.cmd' + '"'
 
-    commandtoexecute =  cmdFile + " 0.0.0.0 " + Parameters["Mode5"] + " " + Parameters["Mode2"] 
+    commandtoexecute =  cmdFile + " 0.0.0.0 " + Parameters["Mode5"] + " " + Parameters["Mode2"]
 
     try:
-        subprocess.check_call(commandtoexecute, shell=True, timeout=2)    
+        subprocess.check_call(commandtoexecute, shell=True, timeout=2)
     except subprocess.CalledProcessError as e:
         Domoticz.Error(str(e.returncode))
         Domoticz.Error(str(e.cmd))
@@ -783,7 +781,7 @@ def startWeb():
         return False
 
     if Parameters["Mode6"] == "Debug":
-        Domoticz.Log("Subprocess " + commandtoexecute + " launched...")    
+        Domoticz.Log("Subprocess " + commandtoexecute + " launched...")
 
     return True
 
@@ -791,21 +789,21 @@ def startWeb():
 def isAlive():
     global isRunning
 
-    #socket.setdefaulttimeout(2)    
+    #socket.setdefaulttimeout(2)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
         s.connect(('127.0.0.1', int(Parameters["Mode5"])))
         isRunning = True
-        s.sendall(b"GET /")    
+        s.sendall(b"GET /")
     except socket.error as e:
         isRunning = False
-        UpdateDevice(255,0,'Off') 
-        
+        UpdateDevice(255,0,'Off')
+
     s.close()
     if Parameters["Mode6"] == "Debug":
             Domoticz.Log("Web isAlive status :" +str(isRunning))
-        
+
     return
 
 #import json files and transfrom to ini file and hex imported code for RM2/RM2T
@@ -813,37 +811,37 @@ def createIniImport():
     global learnedCommand, custom
 
     import json
-    
+
     path=Parameters["Mode2"] + "/import/"
 
     try:
-        with open(path+"jsonSubIr", encoding='utf-8') as remote_name:    
+        with open(path+"jsonSubIr", encoding='utf-8') as remote_name:
             data_remote = json.load(remote_name)
     except ValueError: # includes simplejson.decoder.JSONDecodeError
         return False
 
     try:
-        with open(path+"jsonButton", encoding='utf-8') as button_name:    
+        with open(path+"jsonButton", encoding='utf-8') as button_name:
             data_button = json.load(button_name)
     except ValueError: # includes simplejson.decoder.JSONDecodeError
         return False
 
     try:
-        with open(path+"jsonIrCode", encoding='utf-8') as code_name:    
+        with open(path+"jsonIrCode", encoding='utf-8') as code_name:
             data_code = json.load(code_name)
     except ValueError: # includes simplejson.decoder.JSONDecodeError
         return False
-    
+
     recCode = open(path+"simulate.txt", 'w+', encoding='utf-8')
     CRLF="\n"
 
-    for i in range(0, len(data_code)):        
+    for i in range(0, len(data_code)):
         button = data_code[i]['buttonId']
         for j in range(0, len(data_button)):
             if data_button[j]['id'] == button:
                 numName = data_button[j]['subIRId']
                 buttonName = data_button[j]['name']
-                for k in range(0, len(data_remote)):                    
+                for k in range(0, len(data_remote)):
                     if data_remote[k]['id'] == numName:
                         name = data_remote[k]['name']
                         break
@@ -854,16 +852,16 @@ def createIniImport():
                 buttonName = "unknown"
 
         code = ''.join('%02x' % (i & 0xff) for i in data_code[i]['code'])
-        result = "Numrec : " + str(i) + " Button number: " + str(button ) + " " + "Number name : " + str(numName) + " Name : " + name + " " + buttonName + " Code : " + str(code)        
-        custom = name + " " + buttonName 
-        path = Parameters["Mode2"] + "/import/" + "IMP-" + str(i) + ".ini"        
+        result = "Numrec : " + str(i) + " Button number: " + str(button ) + " " + "Number name : " + str(numName) + " Name : " + name + " " + buttonName + " Code : " + str(code)
+        custom = name + " " + buttonName
+        path = Parameters["Mode2"] + "/import/" + "IMP-" + str(i) + ".ini"
 
         create_config(path,i,code,custom)
         recCode.writelines(result+CRLF)
 
         if Parameters["Mode6"] == "Debug":
             Domoticz.Log(result)
-    
+
     filelink = "file://" +  Parameters["Mode2"] + "/import/" + "simulate.txt"
     Domoticz.Log("Number of devices to create : " + str( i + 1 ))
     Domoticz.Log("You need to select Import for that")
@@ -879,7 +877,7 @@ def manageIniImport(clear):
     import errno
 
     path = Parameters["Mode2"] + "/import/*.ini"
-    files = glob.glob(path)   
+    files = glob.glob(path)
 
     if not files:
         Domoticz.Log("No ini files found")
@@ -889,25 +887,25 @@ def manageIniImport(clear):
         for name in files: # 'file' is a builtin type, 'name' is a less-ambiguous variable name.
             if clear == False:
                 try:
-                    with open(name) as f: # No need to specify 'r': this is the default.                    
+                    with open(name) as f: # No need to specify 'r': this is the default.
                         config = configparser.ConfigParser()
                         config.read(name,encoding='utf-8')
                         UnitNumber=config.get("DEFAULT", "unit")
                         custom=config.get("DEFAULT", "customname")
                         learnedCommand = config.get("LearnedCode", str(UnitNumber))
-                        createDev()                    
+                        createDev()
                 except IOError as exc:
                     if exc.errno != errno.EISDIR: # Do not fail if a directory is found, just ignore it.
                         raise # Propagate other kinds of IOErro
             os.remove(name)
             if Parameters["Mode6"] == "Debug":
-                Domoticz.Log(name + "  removed")                
+                Domoticz.Log(name + "  removed")
 
     if clear == True:
         path = Parameters["Mode2"] + "/import/json*"
-        files = glob.glob(path)   
+        files = glob.glob(path)
         if not files:
-            Domoticz.Log("No json files found")        
+            Domoticz.Log("No json files found")
             return False
         else:
             for name in files:
@@ -918,27 +916,27 @@ def manageIniImport(clear):
     return True
 
 def createDev():
-    
+
     if not save() and numberDev < 254:
         createDev()
 
     return
 
 def remoteSend(Command):
-    
+
     if Command in remoteKEY:
         k = remoteKEY.index(Command)
         try:
             genCommand(remotetoSEND[k])
-        except IndexError: 
-            Domoticz.Error('Send error or Remote command not set in ini file: ' + Command)         
+        except IndexError:
+            Domoticz.Error('Send error or Remote command not set in ini file: ' + Command)
             return False
         if Parameters["Mode6"] == "Debug":
-            Domoticz.Log('Remote send: ' + str(k+1) + " " + str(remotetoSEND[k]))            
+            Domoticz.Log('Remote send: ' + str(k+1) + " " + str(remotetoSEND[k]))
     else:
-        Domoticz.Error('Remote command not defined: ' + Command)        
+        Domoticz.Error('Remote command not defined: ' + Command)
         return False
-    
+
     return True
 
 # get config ini file
@@ -949,22 +947,22 @@ def get_remoteconfig():
 
     if os.path.isfile(name):
         try:
-            with open(name) as f: # No need to specify 'r': this is the default.                    
+            with open(name) as f: # No need to specify 'r': this is the default.
                         config = configparser.ConfigParser()
                         config.read(name,encoding='utf-8')
-                        RemoteCommand = config.get("Custom", "Command")                        
+                        RemoteCommand = config.get("Custom", "Command")
         except IOError as exc:
-            Domoticz.Error('error : ' + str(exc))        
+            Domoticz.Error('error : ' + str(exc))
             raise # Propagate other kinds of IOErro
 
         if Parameters["Mode6"] == "Debug":
-            Domoticz.Log( "ini file read...." + name)    
-            Domoticz.Log( "Custom Commands: " + RemoteCommand)    
+            Domoticz.Log( "ini file read...." + name)
+            Domoticz.Log( "Custom Commands: " + RemoteCommand)
     else:
         if Parameters["Mode6"] == "Debug":
-            Domoticz.Log( "No ini file :" + name)    
+            Domoticz.Log( "No ini file :" + name)
             Domoticz.Log( "Custom Commands for Remote not managed")
-            
+
     return
 
 # generate tuple for remote
@@ -975,17 +973,17 @@ def genRemote():
 
     get_remoteconfig()
 
-    if RemoteCommand:        
+    if RemoteCommand:
         remotetoSEND = make_tuple(RemoteCommand)
-    
+
     remoteKEY=( "Home",
                 "Up",
-                "Info",                
+                "Info",
                 "Left",
                 "Select",
                 "Right",
                 "Back",
-                "Down",                
+                "Down",
                 "ContextMenu",
                 "ChannelUp",
                 "FullScreen",
@@ -993,8 +991,8 @@ def genRemote():
                 "Channels",
                 "ShowSubtitles",
                 "Mute",
-                "ChannelDown",                
-                "Stop",                
+                "ChannelDown",
+                "Stop",
                 "VolumeDown",
                 "BigStepBack",
                 "Rewind",
@@ -1028,7 +1026,7 @@ def checkSensor():
     if Parameters["Mode6"] == "Debug":
         Domoticz.Log(str(data_raw))
 
-# temperature 
+# temperature
     tem =  data['temperature']
 
     UpdateDevice(2,0,str(tem))
@@ -1042,7 +1040,7 @@ def checkSensor():
     elif hum < 70:
         hum_raw = "2"
     else:
-        hum_raw = "3"    
+        hum_raw = "3"
 
     UpdateDevice(3,int(hum),hum_raw)
 
@@ -1052,13 +1050,13 @@ def checkSensor():
     if air_raw == 0:
         air_raw = 400
     elif air_raw == 1:
-        air_raw = 800    
+        air_raw = 800
     elif air_raw == 2:
         air_raw = 1000
     elif air_raw == 3:
         air_raw = 1800
     else:
-        air_raw = 2800    
+        air_raw = 2800
 
     UpdateDevice(4,int(air_raw),str(air))
 
@@ -1126,8 +1124,8 @@ def checkLight():
 # MP1 Device
 def checkPowerMP1():
     global statemp1
-    
-    statemp1 = {}    
+
+    statemp1 = {}
 
     try:
         statemp1 = device.check_power()
